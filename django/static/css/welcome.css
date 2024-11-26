@@ -1,0 +1,76 @@
+       body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Conteneur de la grille prend toute la hauteur */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 7 colonnes de même taille */
+            grid-template-rows: repeat(8, 1fr); /* 9 lignes de même taille */
+            gap: 10px; /* Espacement entre les éléments */
+            height: 100vh; /* Hauteur de la fenêtre du navigateur */
+            width: 100%; /* Largeur de la fenêtre du navigateur */
+        }
+
+        .grid-item {
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-direction: column;
+            grid-column: span 5;
+        }
+
+        .grid-item:nth-child(1) {
+            grid-row: span 3; 
+        }
+        .grid-item:nth-child(2) {
+            grid-row: span 1;
+        }
+        .grid-item:nth-child(3) {
+            grid-row: span 1;
+        }
+        .grid-item:nth-child(4) {
+            grid-column: span 1; 
+            grid-row: 6 / 9; 
+        }
+        
+        .grid-item:nth-child(5) {
+            grid-column: span 1;
+            grid-row: 6 / 9; 
+        }
+       
+       .grid-item:nth-child(6) {
+            grid-column: span 1;
+            grid-row: 6 / 9; 
+        }
+        .grid-item:nth-child(7) {
+            grid-column: span 1;
+            grid-row: 6 / 9; 
+        }
+
+        .grid-item:nth-child(8) {
+            grid-column: span 1;
+            grid-row: 6 / 9;
+        }
+            .circle {
+            width: 80px; /* Taille du cercle */
+            height: 80px; /* Taille du cercle */
+            border-radius: 50%; /* Forme circulaire */
+            background-color: #4caf50; /* Couleur de fond du cercle */
+            margin-bottom: 10px; /* Espacement entre le cercle et le texte */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .circle img {
+            width: 100%; /* L'image prend toute la largeur du cercle */
+            height: 100%; /* L'image prend toute la hauteur du cercle */
+            object-fit: cover; /* L'image couvre tout le cercle sans déformer */
+        }

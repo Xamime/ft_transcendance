@@ -1,0 +1,54 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    networks:
+     - app-network
+    env_file:
+     - .env
+    restart: on-failure
+    ports:
+     - 5432:5432
+    volumes:
+     - db_data:/backend/
+  backend:
+    container_name: django
+    build: ./django
+    depends_on:
+      - postgresql
+    networks: 
+      - app-network
+    env_file: 
+      - .env
+    restart: on-failure
+    ports: 
+      - 8000:8000
+    volumes :
+      - backend_data:/backend/
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    depends_on:
+     - backend
+    networks:
+     - app-network
+    env_file: 
+     - .env
+    restart: on-failure
+    ports:
+     - 443:443
+     
+networks:
+  app-network:
+    name: transcendance
+    driver: bridge
+
+volumes:
+  backend_data:
+    driver: local
+    driver_opts: 
+      type: none
+      o: bind
+      device: $PWD/django
+  db_data:
+
