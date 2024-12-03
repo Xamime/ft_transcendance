@@ -1,18 +1,13 @@
-       body, html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .grid-container {
+.grid-container.settings_game {
             display: grid;
-            grid-template-columns: repeat(9, 1fr);
+            grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(6, 1fr);
             gap: 10px;
             height: 100vh;
             width: 100%;
         }
 
-        .grid-item {
+.grid-container.settings_game .grid-item {
             padding: 20px;
             text-align: center;
             border: 1px solid #ddd;
@@ -23,27 +18,22 @@
             flex-direction: column;
         }
 
-        .grid-item:nth-child(1) {
+.grid-container.settings_game .grid-item:nth-child(1) {
             grid-row: 1;
             grid-column: 1 / 9;
         }
 
-        .grid-item:nth-child(2) {
+.grid-container.settings_game .grid-item:nth-child(2) {
             grid-row: 2 / 6;
-            grid-column: 1 / 4;
+            grid-column: 1 / 5;
         }
 
-        .grid-item:nth-child(3) {
+.grid-container.settings_game .grid-item:nth-child(3) {
             grid-row: 2 / 6;
-            grid-column: 4 / 7;
-        }
-
-        .grid-item:nth-child(4) {
-            grid-row: 2 / 6;
-            grid-column: 7 / 10;
+            grid-column: 5 / 9;
         }
        
-        .grid-item:nth-child(5) {
+.grid-container.settings_game .grid-item:nth-child(4) {
             grid-row: 6 / 7;
             grid-column: 1 / 9;
         }

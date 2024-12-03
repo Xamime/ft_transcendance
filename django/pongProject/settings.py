@@ -42,7 +42,7 @@ ROOT_URLCONF = 'pongProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,7 +56,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pongProject.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -113,8 +112,40 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
 CSRF_TRUSTED_ORIGINS = [
+    'https://localhost', 
     'http://localhost',
+    'https://127.0.0.1',  
     'http://127.0.0.1',
-    'https://localhost',  # Si vous utilisez HTTPS
 ]
+
+CSRF_COOKIE_SECURE = True 
+
+CSRF_COOKIE_HTTPONLY = False
+
+CSRF_COOKIE_NAME = 'csrftoken'
+
+AUTH_USER_MODEL = 'pongApp.Account'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

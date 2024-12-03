@@ -1,0 +1,24 @@
+<div class="grid-container welcome">
+    <div class="grid-item">
+        <h1>Pong Game</h1>
+    </div>
+
+    <div class="grid-item">
+        <button type="button" class="btn btn-primary" data-path="/connection/">START</button>
+    </div>
+    
+    <div class="grid-item">
+        <h1>The Dream Team</h1>
+    </div>
+    
+{% for profile in profiles %}
+<div class="grid-item">
+    <div class="circle">
+        <img src="{{ profile.picture_url|default:'https://via.placeholder.com/80' }}" alt="{{ profile.pseudo }}">
+    </div>
+    <h2>{{ profile.pseudo }}</h2>
+</div>
+{% endfor %}
+
+</div>
+

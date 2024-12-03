@@ -26,7 +26,7 @@ all: run
 
 run:
 	@echo "$(GREEN)Start server !$(NOC)"
-	@docker compose up --build
+	@docker compose up -d
 
 stop:
 	@echo "$(BLUE)Server stop$(NOC)"

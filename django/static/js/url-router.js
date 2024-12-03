@@ -1,82 +1,102 @@
-const urlPageTitle = "JS Single Page Application Router";
+const urlPageTitle = "Pong Game";
 
-// create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-	const { target } = e;
-	if (!target.matches(".btn btn-primary")) {
-		return;
-	}
-	e.preventDefault();
-	urlRoute();
+    const { target } = e;
+    if (!target.matches("button[data-path]")) {
+        return;
+    }
+    e.preventDefault();
+    urlRoute(target.getAttribute("data-path"));
 });
 
-// create an object that maps the url to the template, title, and description
+
 const urlRoutes = {
-	404: {
-		template: "/error404/",
-		title: "404 | " + urlPageTitle,
-		description: "Page not found",
-	},
-	"/": {
-		template: "/home/",
-		title: "Home | " + urlPageTitle,
-		description: "This is the home page",
-	},
-	"/home/": {
-		template: "/home/",
-		title: "Home | " + urlPageTitle,
-		description: "This is the home page",
-	},
-	"/about/": {
-		template: "/about/",
-		title: "About Us | " + urlPageTitle,
-		description: "This is the about page",
-	},
-	"/contact/": {
-		template: "/contact/",
-		title: "Contact Us | " + urlPageTitle,
-		description: "This is the contact page",
-	},
+    "/": {
+        template: "/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/welcome/": {
+        template: "/welcome/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/board_player/": {
+        template: "/board_player/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/connection/": {
+        template: "/connection/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/end_game/": {
+        template: "/end_game/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/error404/": {
+        template: "/error404/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/game/": {
+        template: "/game/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/IA/": {
+        template: "/IA/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/local/": {
+        template: "/local/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/register/": {
+        template: "/register/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/settings_game/": {
+        template: "/settings_game/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/settings_player/": {
+        template: "/settings_player/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/2_players/": {
+        template: "/2_players/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/online/": {
+        template: "/online/",
+        title: "Welcome | " + urlPageTitle,
+    },
+    "/tournament/": {
+        template: "/tournament/",
+        title: "Welcome | " + urlPageTitle,
+    },
 };
 
-const urlRoute = (event) => {
-    event = event || window.event; 
-    event.preventDefault();
-    console.log("Navigating to:", event.target.href);
-        window.history.pushState({}, "", event.target.href);
-        urlLocationHandler();
+const urlRoute = (path) => {
+    window.history.pushState({}, "", path);
+    urlLocationHandler();
 };
 
 const urlLocationHandler = async () => {
-    let location = window.location.pathname; // get the url path
-    console.log("Current location:", location); // Log the current path
-
-    if (location.length == 0) {
+    let location = window.location.pathname;
+    if (location.length === 0) {
         location = "/";
     }
-
-    console.log("Updated location:", location);
-	console.log("Defined routes:", Object.keys(urlRoutes));
- 
-    const route = urlRoutes[location] || urlRoutes["404"];
-    console.log("Route object:", route); 
-
-    try {
+    const route = urlRoutes[location];
+    if (route) {
         const html = await fetch(route.template).then((response) => response.text());
-        console.log("Fetched HTML:", html); // Log the fetched HTML
         document.getElementById("content").innerHTML = html;
-    } catch (error) {
-        console.error("Error fetching template:", error); // Log error if fetching fails
+        document.title = route.title;
+        document
+            .querySelector('meta[name="description"]')
+    } else {
+        document.getElementById("content").innerHTML =
+            "<h1>404 - Page Not Found</h1>";
+        document.title = "404 | " + urlPageTitle;
     }
-
-    document.title = route.title;
-    console.log("Document title set to:", route.title); // Log the title set
-    document
-        .querySelector('meta[name="description"]')
-        .setAttribute("content", route.description);
-    console.log("Document description set to:", route.description); // Log the description set
 };
 
 window.onpopstate = urlLocationHandler;
-window.route = urlRoute;
 urlLocationHandler();
+

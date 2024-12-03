@@ -1,16 +1,38 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
-class UserSettings(models.Model):
-    user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-    up_key = models.CharField(max_length=10, default="ArrowUp")
-    down_key = models.CharField(max_length=10, default="ArrowDown")
-
-    def __str__(self):
-        return f"Settings for {self.user.username}"
+class DreamTeam(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    pseudo = models.CharField(max_length=100)
+    picture_url = models.URLField(max_length=255, blank=True, null=True)
     
-# si la class de model s'appelle alo, le nom de ce model pour la base de donnée sera pongApp_alo;
-class Participant(models.Model):
-    name = models.CharField(max_length=100)
+    def __str__(self):
+        return (
+            f"DreamTeam(id={self.id}, "
+            f"pseudo='{self.pseudo}', "
+            f"picture_url='{self.picture_url}')"
+        )
+        
+
+class Account(AbstractBaseUser, PermissionsMixin):
+    id = models.BigAutoField(primary_key=True)
+    pseudo = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=100) 
+    avatar = models.URLField(max_length=255, blank=True, null=True) 
+    victories = models.IntegerField(default=0) 
+    looses = models.IntegerField(default=0) 
+    is_active = models.BooleanField(default=True)
+
+    USERNAME_FIELD = 'pseudo'
+    REQUIRED_FIELDS = ['password'] 
 
     def __str__(self):
-        return self.name
+        return (
+            f"Account(id={self.id}, "
+            f"pseudo='{self.pseudo}', "
+            f"password='{self.password}', "
+            f"avatar='{self.avatar}', "
+            f"victories={self.victories}, "
+            f"looses={self.looses})"
+        )
+
