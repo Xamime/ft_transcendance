@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import Account, DreamTeam
+from .models import Account, DreamTeam, History
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 import json
 import logging
@@ -23,7 +24,9 @@ def welcome(request):
 @login_required
 def board_player(request):
     user = request.user
-    return render(request, 'main/partial/board_player.html', {'user': user})
+    friends = user.friends.all()  
+    history = History.objects.filter(Q(player_one_name=user.pseudo) | Q(player_two_name=user.pseudo))
+    return render(request, 'main/partial/board_player.html', {'user': user, 'friends' : friends, 'history': history})
 
 def connection(request):
     accounts = Account.objects.all()
@@ -133,5 +136,32 @@ def check_register(request):
 
         except Exception as e:
             return JsonResponse({'success': False, 'error': 'An error occurred during registration'})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@login_required
+def save_color(request):
+    if request.method == 'POST':
+        try:
+            if request.content_type == 'application/json':
+                try:
+                    data = json.loads(request.body)
+                except json.JSONDecodeError as e:
+                    return JsonResponse({'success': False, 'error': f'Invalid JSON: {str(e)}'})
+            else:
+                data = request.POST
+
+            bar_color = data.get('bar-color')
+
+            if bar_color:
+                user = request.user
+                user.bar_color = bar_color
+                user.save()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Color not provided'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': 'An error occurred while saving the color'})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})

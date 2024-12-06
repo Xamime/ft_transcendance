@@ -6,6 +6,7 @@ document.addEventListener("click", (e) => {
         return;
     }
     e.preventDefault();
+    sessionStorage.setItem('previousPage', window.location.pathname);
     urlRoute(target.getAttribute("data-path"));
 });
 

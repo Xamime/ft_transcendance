@@ -42,8 +42,8 @@
 
 .grid-container.game .grid-item:nth-child(1) 
 {
-    grid-row: 2 / 8;
-    grid-column: 2 / 14;
+    grid-row: 1 / 9;
+    grid-column: 4 / 12;
 }
 
 .grid-container.game .grid-item:nth-child(2) 

@@ -19,12 +19,54 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 alert('Login failed. Please check your credentials.');
             }
-        }        
-        else {
-            alert('Register or Login form not found!');
+        }
+        else if (event.target && event.target.id === 'color-form') {
+            const success = await save_color();
+            if (success) {
+                alert('Color changed !');
+            } else {
+                alert('Color is not modified, please try again.');
+            }
         }
     }, true);
 });
+
+async function save_color() {
+    const color = document.getElementById('bar-color').value;
+    
+    const csrfToken = getCSRFToken();
+    if (!csrfToken) {
+        alert('CSRF Token is missing!');
+        return false;
+    }
+    
+    try {
+        const response = await fetch("/save_color/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify ({ 
+                color: color 
+            }),
+        });
+
+        if (!response.ok) {
+            alert(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success) { return true; } else { return false; }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while validating. Please try again.');
+            return false;
+    }
+}
 
 async function check_register() {
     const username = document.getElementById('username-register').value.trim();

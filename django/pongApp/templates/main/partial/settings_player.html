@@ -1,5 +1,30 @@
-<div class="settings_player">
-<button type="button" class="btn btn-primary" id="logout-button">Deconnexion</button>
-<button type="button" class="btn btn-primary" data-path="/board_player/">Return</button>
+<div class="grid-container settings_player">
+    <div class="grid-item">
+        <h1>Account and options</h1>
+    </div>
+    <div class="grid-item">
+        <h1>Friends</h1>
+    </div>
+    <div class="grid-item">
+        <h1>Avatar</h1>
+        <h1>Couleur de la barre</h1>
+        <!-- Champ pour sélectionner la couleur -->
+        <form id="color-form" method="POST" >
+            {% csrf_token %}
+            <input type="color" id="bar-color" name="bar-color" value="#000000">
+            <label for="bar-color">Choisir la couleur</label>
+            <!-- Bouton pour valider la couleur -->
+            <button type="submit" class="btn btn-primary">Valider la couleur</button>
+        </form>
+    </div>
+    <div class="grid-item">
+        <h1>Ajouter un ami</h1>
+        <h1>Supprimer un ami</h1>
+    </div>
+    <div class="grid-item">
+        <button type="button" class="btn btn-primary" id="logout-button">Deconnexion</button>
+    </div>
+    <div class="grid-item">
+        <button type="button" class="btn btn-primary" data-path="/board_player/">Return</button>
+    </div>
 </div>
-

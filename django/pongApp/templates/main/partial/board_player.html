@@ -17,17 +17,99 @@
 
     <div class="grid-item">
         <p>Nombre de parties jouées</p>
-        <div class="square"></div>
+        <p>{{ user.victories|add:user.looses }}</p>
     </div>
 
     <div class="grid-item">
-        <p>Historique</p>
-        <div class="history"></div>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="history">Historique</button>
+            <button class="tab-button" data-tab="friends">Friends</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- History Tab -->
+            <div id="history" class="tab-pane active">
+                <div class="history">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Opponent</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for game in history %}
+                            <tr>
+                                <td>{{ game.game_date|date:"Y-m-d H:i" }}</td>
+                                <td>
+                                    {% if game.player_one_name == user.username %}
+                                        {{ game.player_two_name }}
+                                    {% else %}
+                                        {{ game.player_one_name }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if game.player_one_name == user.username %}
+                                        {% if game.player_one_score > game.player_two_score %}
+                                            Win ({{ game.player_one_score }} - {{ game.player_two_score }})
+                                        {% elif game.player_one_score < game.player_two_score %}
+                                            Loss ({{ game.player_one_score }} - {{ game.player_two_score }})
+                                        {% else %}
+                                            Draw ({{ game.player_one_score }} - {{ game.player_two_score }})
+                                        {% endif %}
+                                    {% else %}
+                                        {% if game.player_two_score > game.player_one_score %}
+                                            Win ({{ game.player_two_score }} - {{ game.player_one_score }})
+                                        {% elif game.player_two_score < game.player_one_score %}
+                                            Loss ({{ game.player_two_score }} - {{ game.player_one_score }})
+                                        {% else %}
+                                            Draw ({{ game.player_two_score }} - {{ game.player_one_score }})
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="3">No history available.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Friends Tab -->
+            <div id="friends" class="tab-pane">
+                <div class="friends">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for friend in friends %}
+                            <tr>
+                                <td>{{ friend.pseudo }}</td>
+                                <td>{{ friend.status }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2">No friends found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="grid-item">
         <p>RATIO</p>
-        <div class="square"></div>
+        <p>{{ user.victories }} / {{ user.looses }}</p>
+        <p>WIN / LOOSE</p>
     </div>
 
     <div class="grid-item">
@@ -38,4 +120,3 @@
         <button type="button" class="btn btn-primary" data-path="/settings_game/">Play !</button>
     </div>
 </div>
-

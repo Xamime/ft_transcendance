@@ -20,4 +20,5 @@ urlpatterns = [
     path('check_register/', views.check_register, name='check_register'),
     path('online/', views.settings_game_online, name='online'),
     path('tournament/', views.settings_game_tournament, name='tournament'),
+    path('save_color/', views.save_color, name='save_color'), 
 ]
