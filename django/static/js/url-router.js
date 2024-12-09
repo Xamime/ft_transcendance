@@ -6,7 +6,6 @@ document.addEventListener("click", (e) => {
         return;
     }
     e.preventDefault();
-    sessionStorage.setItem('previousPage', window.location.pathname);
     urlRoute(target.getAttribute("data-path"));
 });
 
@@ -81,23 +80,31 @@ const urlRoute = (path) => {
 
 const urlLocationHandler = async () => {
     let location = window.location.pathname;
+    const base = urlRoutes["/"];
     if (location.length === 0) {
         location = "/";
     }
     const route = urlRoutes[location];
     if (route) {
-        const html = await fetch(route.template).then((response) => response.text());
+        // let html = await fetch(base.template).then((response) => response.text());
+        // document.getElementById("content").innerHTML = html;
+        // alert(base.template);
+        html = await fetch(route.template).then((response) => response.text());
         document.getElementById("content").innerHTML = html;
-        document.title = route.title;
-        document
-            .querySelector('meta[name="description"]')
+        alert(route.template);
+        // if (document.getElementById("content"))
+        // else
+        //     alert("no content");
     } else {
         document.getElementById("content").innerHTML =
             "<h1>404 - Page Not Found</h1>";
         document.title = "404 | " + urlPageTitle;
     }
 };
+// window.addEventListener('popstate',  urlLocationHandler()); // Gère les changements d'URL via le bouton retour
 
-window.onpopstate = urlLocationHandler;
-urlLocationHandler();
+document.addEventListener("DOMContentLoaded", () => {
+    window.onpopstate = urlLocationHandler;
+    urlLocationHandler();
+});
 

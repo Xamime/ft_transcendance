@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
-
 urlpatterns = [
+
     path('', views.index, name='index'),
+    # re_path(r'^.*$', views.index, name='index'),
     path('welcome/', views.welcome, name='welcome'),
     path('board_player/', views.board_player, name='board_player'), 
     path('connection/', views.connection, name='connection'), 
@@ -20,5 +21,5 @@ urlpatterns = [
     path('check_register/', views.check_register, name='check_register'),
     path('online/', views.settings_game_online, name='online'),
     path('tournament/', views.settings_game_tournament, name='tournament'),
-    path('save_color/', views.save_color, name='save_color'), 
+    path('save_color/', views.save_color, name='save_color'),
 ]

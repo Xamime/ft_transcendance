@@ -18,9 +18,12 @@
        </form>
    </div>    
    <div class="grid-item">
-       <h1>Player 2</h1>
        <form id="settings-form2"> 
            {% csrf_token %}
+           <label id="p2"> name : 
+            <input type="text" placeholder="type your name here" maxlength="10">
+            </label>
+           <br>
            <label> Up : 
                <input type="text" name="up_key2" placeholder="default : ArrowUp" maxlength="1">
            </label>

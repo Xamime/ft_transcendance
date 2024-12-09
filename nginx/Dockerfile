@@ -11,6 +11,7 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/transcendance.crt -keyout /etc/
 RUN mkdir -p /var/run/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./index.html /var/www/html
 
 RUN chmod 755 /var/www/html && chown -R www-data:www-data /var/www/html
 

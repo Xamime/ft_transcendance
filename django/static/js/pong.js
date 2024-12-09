@@ -40,48 +40,46 @@ function initPong() {
     }
 }
 
-function getCsrfToken() {
-    const metaCsrf = document.querySelector('meta[name="csrf-token"]');
-    if (metaCsrf) {
-        return metaCsrf.getAttribute('content');
-    } else {
-        console.error('CSRF token not found.');
-        return null;
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
+    return cookieValue;
 }
 
-function saveGameScore(player1, player2, score1, score2) {
-    // Créer un formulaire dynamiquement
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/save_score/';
-    
-    // Ajouter le token CSRF
-    const csrfToken = getCsrfToken();
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = 'csrfmiddlewaretoken';
-    csrfInput.value = csrfToken;
-    form.appendChild(csrfInput);
-    
-    // Ajouter les données des joueurs et des scores
-    const inputs = [
-        { name: 'player1', value: player1 },
-        { name: 'player2', value: player2 },
-        { name: 'score_player1', value: score1 },
-        { name: 'score_player2', value: score2 }
-    ];
-    inputs.forEach(({ name, value }) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
-        form.appendChild(input);
-    });
-    
-    // Ajouter le formulaire au document et le soumettre
-    document.body.appendChild(form);
-    form.submit();
+function saveGameScore() {
+        // Envoyer une requête POST avec fetch
+        name_player2 = document.getElementById('p2').innerText;
+        alert(name_player2);
+        fetch('https://localhost/game/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // Ou 'application/json' si nécessaire
+                // Ajoutez le token CSRF ici si vous ne désactivez pas CSRF :
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: new URLSearchParams({
+                'player_one': "toto",
+                'player_two': name_player2,
+                'player_one_score': score1,
+                'player_two_score': score2,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status !== 'success') {
+                alert('Erreur lors de l\'enregistrement.');
+            }
+        })
+        .catch(error => console.error('Erreur:', error));  
 }
 
 document.addEventListener('keydown', (event) => {
@@ -181,8 +179,8 @@ function gameLoop() {
     updateBallPosition();
     checkIfScored();    
     drawScore();
-    if (score1 == 3 || score2 == 3) {
-        // saveGameScore("max", "mamax", score1 ,score2);
+    if (score1 == 1 || score2 == 1) {
+        saveGameScore();
         button.style.display = "block";
         score1 = 0;
         score2 = 0;

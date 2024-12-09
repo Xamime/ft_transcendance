@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target && event.target.id === 'logout-button') {
             const success = await logoutUser();
             if (success) {
-                alert("You are desconnected !");
+                alert("You are disconnected !");
                 urlRoute('/welcome/');
             } else {
                 alert("Deconnexion failed, try again.");

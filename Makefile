@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: augougea <augougea@student.42.fr>          +#+  +:+       +#+         #
+#    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 17:13:10 by augougea          #+#    #+#              #
-#    Updated: 2024/01/31 13:50:45 by augougea         ###   ########.fr        #
+#    Updated: 2024/12/08 03:27:38 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ all: run
 
 run:
 	@echo "$(GREEN)Start server !$(NOC)"
-	@docker compose up -d
+	@docker compose up -d --build
 
 stop:
 	@echo "$(BLUE)Server stop$(NOC)"

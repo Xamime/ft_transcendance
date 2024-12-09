@@ -39,7 +39,19 @@ def error404(request):
     return render(request, 'main/partial/error404.html')
 
 def game(request):
+    user = request.user
+    if request.method == 'POST':
+        History.objects.create(
+            player_one_name=user.pseudo,
+            player_two_name=request.POST.get('player_two'),
+            player_one_score=request.POST.get('player_one_score'),
+            player_two_score=request.POST.get('player_two_score')
+        )
+        return JsonResponse({'status': 'success', 'message': 'Game history recorded!'})
     return render(request, 'main/partial/game.html')
+
+# def game(request):
+#     return render(request, 'main/partial/game.html')
 
 def register(request):
     return render(request, 'main/partial/register.html')
